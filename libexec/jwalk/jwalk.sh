@@ -1,19 +1,14 @@
 #!/bin/sh
 set -e
 
-READLINK="$( which greadlink readlink | head -n 1 )"
-[ -n "$READLINK" ] || {
-  echo "jwalk: can't find readlink"
-  exit 1
-} >&2
-
 abs_dirname() {
   path="$1"
   while :; do
     cd -P "${path%/*}"
     name="${path##*/}"
     if [ -L "$name" ]; then
-      path="$("$READLINK" "$name")"
+      link="$(ls -l "$name")"
+      path="${link##* $name -> }"
     else
       break
     fi
