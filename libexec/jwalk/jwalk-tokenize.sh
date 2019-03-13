@@ -1,4 +1,5 @@
-#!/bin/sh
+set -e
+[ -z "$JWALK_DEBUG" ] || set -x
 
 CHARS="$(printf '\n\t')"
 LF="${CHARS%?}"
