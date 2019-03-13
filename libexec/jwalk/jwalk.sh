@@ -1,4 +1,7 @@
 #!/bin/sh
+# jwalk: a streaming JSON parser for Unix
+# (c) Sam Stephenson / https://jwalk.sh
+
 set -e
 [ -z "$JWALK_DEBUG" ] || set -x
 

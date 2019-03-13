@@ -1,3 +1,22 @@
+# jwalk: a streaming JSON parser for Unix
+# (c) Sam Stephenson / https://jwalk.sh
+
+# jwalk-parse.awk parses a stream of JSON tokens, one per line, as generated
+# by jwalk-tokenize.sh. For each value in the token stream, jwalk-parse.awk
+# writes a line of tab-separated values in the following form:
+#
+#     [key '\t' ...]  type  '\t'  value
+#
+# That is, zero or more key strings, each followed by a tab; a type string,
+# one of either "string", "number", "boolean", "null", "array", or "object",
+# followed by a tab; and a string representation of the JSON value.
+#
+# Strings are UTF-8 strings with the following special characters escaped:
+#
+#     \n      newline
+#     \t      tab
+#     \\      backslash
+#
 
 BEGIN {
   FS = ""
