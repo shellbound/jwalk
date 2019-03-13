@@ -89,7 +89,7 @@ BEGIN {
 
 /^null|^true|^false/ {
   if (state == 0 || state == 4 || state == 5) {
-    visit("symbol")
+    visit($0 == "null" ? $0 : "boolean")
     advance()
   } else {
     unexpected()
@@ -107,7 +107,13 @@ function advance() {
 
 function visit(type,  path, value) {
   path = join(keys)
-  value = type == "string" ? unquote() : $0
+  if (type == "string") {
+    value = unquote()
+  } else if (type == "number" || type == "boolean") {
+    value = $0
+  } else {
+    value = ""
+  }
   print(unescape((length(path) ? path OFS : "") type OFS value))
 }
 
