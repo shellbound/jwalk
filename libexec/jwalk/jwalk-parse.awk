@@ -105,9 +105,10 @@ function advance() {
   }
 }
 
-function visit(type,  value) {
+function visit(type,  path, value) {
+  path = join(keys)
   value = type == "string" ? unquote() : $0
-  print(unescape(join(keys) OFS type OFS value))
+  print(unescape((length(path) ? path OFS : "") type OFS value))
 }
 
 function unexpected() {
