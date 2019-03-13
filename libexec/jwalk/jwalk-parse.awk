@@ -3,7 +3,7 @@ BEGIN {
   FS = ""
   OFS = "\t"
   state = 0
-  stack(path)
+  stack(keys)
   stack(states)
 }
 
@@ -31,7 +31,7 @@ BEGIN {
     push(states, state)
     state = 5
     visit("array")
-    push(path, dtoa(0))
+    push(keys, dtoa(0))
   } else {
     unexpected()
   }
@@ -40,7 +40,7 @@ BEGIN {
 /^]/ {
   if (state == 5 || state == 6) {
     state = pop(states)
-    pop(path)
+    pop(keys)
     advance()
   } else {
     unexpected()
@@ -60,7 +60,7 @@ BEGIN {
     state = 1
   } else if (state == 6) {
     state = 5
-    push(path, dtoa(pop(path) + 1))
+    push(keys, dtoa(pop(keys) + 1))
   } else {
     unexpected()
   }
@@ -69,7 +69,7 @@ BEGIN {
 /^"/ { #"
   if (state == 1) {
     state = 3
-    push(path, unquote())
+    push(keys, unquote())
   } else if (state == 0 || state == 4 || state == 5) {
     visit("string")
     advance()
@@ -99,7 +99,7 @@ BEGIN {
 function advance() {
   if (state == 4) {
     state = 2
-    pop(path)
+    pop(keys)
   } else if (state == 5) {
     state = 6
   }
@@ -107,7 +107,7 @@ function advance() {
 
 function visit(type,  value) {
   value = type == "string" ? unquote() : $0
-  print(unescape(join(path) OFS type OFS value))
+  print(unescape(join(keys) OFS type OFS value))
 }
 
 function unexpected() {
