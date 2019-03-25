@@ -1,8 +1,8 @@
 # jwalk: a streaming JSON parser for Unix
 # (c) Sam Stephenson / https://jwalk.sh
 
-# jwalk-parse.awk parses a stream of JSON tokens, one per line, as generated
-# by jwalk-tokenize.sh. For each value in the token stream, jwalk-parse.awk
+# jwalk/parse.awk parses a stream of JSON tokens, one per line, as generated
+# by jwalk/tokenize.sh. For each value in the token stream, jwalk/parse.awk
 # writes a line of tab-separated values in the following form:
 #
 #     [key '\t' ...]  type  '\t'  value

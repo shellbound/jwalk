@@ -1,7 +1,7 @@
 # jwalk: a streaming JSON parser for Unix
 # (c) Sam Stephenson / https://jwalk.sh
 
-# jwalk-tokenize.sh reads a well-formed JSON value from standard input and
+# jwalk/tokenize.sh reads a well-formed JSON value from standard input and
 # writes a stream of JSON tokens to standard output, one token per line.
 
 set -e

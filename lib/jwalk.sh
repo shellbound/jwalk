@@ -21,7 +21,7 @@ usage() {
 
 # Find ourselves
 
-abs_dirname() {
+realpath_dirname() {
   path="$1"
   while :; do
     cd -P "${path%/*}"
@@ -36,7 +36,7 @@ abs_dirname() {
   pwd
 }
 
-LIBEXEC="$(abs_dirname "$0")"
+LIB="$(realpath_dirname "$0")"
 TMPDIR="${TMPDIR:-/tmp}"
 
 
@@ -44,17 +44,16 @@ TMPDIR="${TMPDIR:-/tmp}"
 
 unset args stored_scripts json_file
 
-append() {
-  var="$1"
-  eval "shift; $var=\"\$$var\$@ \""
-}
-
 store() {
   path="${TMPDIR%/}/jwalk.$$.$1"
   escaped_path="$(escape "$path")"
   append stored_scripts "$escaped_path "
   printf '%s\n' "$2" > "$path"
   trap 'eval "rm -f $stored_scripts"' EXIT
+}
+
+append() {
+  eval "shift; $1=\"\$$1\$@ \""
 }
 
 escape() {
@@ -105,15 +104,15 @@ walk() {
 }
 
 examine() {
-  awk -f "$LIBEXEC/jwalk-examine.awk" "$@"
+  awk -f "$LIB/jwalk/examine.awk" "$@"
 }
 
 parse() {
-  awk -f "$LIBEXEC/jwalk-parse.awk"
+  awk -f "$LIB/jwalk/parse.awk"
 }
 
 tokenize() {
-  sh "$LIBEXEC/jwalk-tokenize.sh"
+  sh "$LIB/jwalk/tokenize.sh"
 }
 
 if [ -n "$json_file" ] && [ "$json_file" != "-" ]; then
