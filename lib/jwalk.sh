@@ -14,7 +14,7 @@ error() {
 }
 
 usage() {
-  warn "usage: jwalk [-e script ...] [-f script-file ...] [-l] [json-file]"
+  warn "usage: jwalk [-l] [-e script ...] [-f script-file ...] [json-file]"
   [ -z "$1" ] || exit "$1"
 }
 
@@ -67,34 +67,42 @@ while [ $index -le $# ]; do
   eval 'next="$'$(( index + 1 ))'"'
   incr=1
 
-  case "$this" in
-    -e)
-      [ -n "$next" ] || usage 1
-      store $index "$next"
-      append args -f "$escaped_path"
-      examining=1
-      incr=2
-      ;;
-    -f)
-      [ -n "$next" ] || usage 1
-      append args -f '"$'$(( index + 1 ))'"'
-      examining=1
-      incr=2
-      ;;
-    -h|--help)
-      usage 0
-      ;;
-    -l)
-      append args -v leafonly=1
-      ;;
-    -*)
-      usage 1
-      ;;
-    *)
-      [ -z "$json_file" ] || usage 1
-      json_file="$this"
-      ;;
-  esac
+  while
+    retry=0
+    case "$this" in
+      -e)
+        [ -n "$next" ] || usage 1
+        store $index "$next"
+        append args -f "$escaped_path"
+        examining=1
+        incr=2
+        ;;
+      -f)
+        [ -n "$next" ] || usage 1
+        append args -f '"$'$(( index + 1 ))'"'
+        examining=1
+        incr=2
+        ;;
+      -h|--help)
+        usage 0
+        ;;
+      -l|-le|-lf)
+        append args -v leafonly=1
+        if [ "${#this}" -eq 3 ]; then
+          this="-${this#-l}"
+          retry=1
+        fi
+        ;;
+      -*)
+        usage 1
+        ;;
+      *)
+        [ -z "$json_file" ] || usage 1
+        json_file="$this"
+        ;;
+    esac
+    [ $retry -ne 0 ]
+  do :; done
 
   index=$(( index + incr ))
 done
