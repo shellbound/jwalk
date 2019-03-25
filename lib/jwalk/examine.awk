@@ -24,6 +24,14 @@ BEGIN {
 
 {
   examine()
+
+  if (leafonly && !leaf) {
+    next
+  }
+
+  if (!examined) {
+    print
+  }
 }
 
 function examine(i, v) {
