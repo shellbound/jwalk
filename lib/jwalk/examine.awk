@@ -23,13 +23,16 @@ BEGIN {
 }
 
 {
-  examine()
+  type = $(NF - 1)
+  leaf = type != "array" && type != "object"
 
   if (leafonly && !leaf) {
     next
   }
 
-  if (!examined) {
+  if (examining) {
+    examine()
+  } else {
     print
   }
 }
@@ -44,9 +47,7 @@ function examine(i, v) {
   }
 
   key = $(NF - 2)
-  type = $(NF - 1)
   value = _ = $(NF)
-  leaf = type != "array" && type != "object"
 }
 
 function unescape(str) {

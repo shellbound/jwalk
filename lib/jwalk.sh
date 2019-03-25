@@ -42,7 +42,7 @@ TMPDIR="${TMPDIR:-/tmp}"
 
 # Process command-line arguments
 
-unset args examined json_file stored_scripts
+unset args examining json_file stored_scripts
 
 store() {
   path="${TMPDIR%/}/jwalk.$$.$1"
@@ -72,13 +72,13 @@ while [ $index -le $# ]; do
       [ -n "$next" ] || usage 1
       store $index "$next"
       append args -f "$escaped_path"
-      examined=1
+      examining=1
       incr=2
       ;;
     -f)
       [ -n "$next" ] || usage 1
       append args -f '"$'$(( index + 1 ))'"'
-      examined=1
+      examining=1
       incr=2
       ;;
     -h|--help)
@@ -109,7 +109,7 @@ walk() {
 }
 
 examine() {
-  awk -v "examined=$examined" -f "$LIB/jwalk/examine.awk" "$@"
+  awk -v "examining=$examining" -f "$LIB/jwalk/examine.awk" "$@"
 }
 
 parse() {
