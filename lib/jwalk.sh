@@ -9,12 +9,9 @@ warn() {
   printf "%s\n" "$1" >&2
 }
 
-error() {
-  warn "jwalk: $1"
-}
-
 usage() {
   warn "usage: jwalk [-l] [-e script ...] [-f script-file ...] [json-file]"
+  warn "(see https://jwalk.sh for more information and examples)"
   [ -z "$1" ] || exit "$1"
 }
 
@@ -36,7 +33,7 @@ realpath_dirname() {
   pwd
 }
 
-LIB="$(realpath_dirname "$0")"
+export JWALK_LIB="$(realpath_dirname "$0")"
 TMPDIR="${TMPDIR:-/tmp}"
 
 
@@ -86,7 +83,10 @@ while [ $index -le $# ]; do
       -h|--help)
         usage 0
         ;;
-      -l|-le|-lf)
+      --install)
+        exec sh "$JWALK_LIB/jwalk/install.sh" "$next"
+        ;;
+      -l|--leaf-only|-le|-lf)
         append args -v leafonly=1
         if [ "${#this}" -eq 3 ]; then
           this="-${this#-l}"
@@ -117,15 +117,15 @@ walk() {
 }
 
 examine() {
-  awk -v "examining=$examining" -f "$LIB/jwalk/examine.awk" "$@"
+  awk -v "examining=$examining" -f "$JWALK_LIB/jwalk/examine.awk" "$@"
 }
 
 parse() {
-  awk -f "$LIB/jwalk/parse.awk"
+  awk -f "$JWALK_LIB/jwalk/parse.awk"
 }
 
 tokenize() {
-  sh "$LIB/jwalk/tokenize.sh"
+  sh "$JWALK_LIB/jwalk/tokenize.sh"
 }
 
 if [ -n "$json_file" ] && [ "$json_file" != "-" ]; then

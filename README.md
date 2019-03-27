@@ -19,9 +19,20 @@ String values are encoded as UTF-8, and are unescaped with the exception of `\n`
 
 When you need more control over the output than `grep` and `cut` provide, you can write a jwalk _examiner_. An examiner is an Awk script with [easy access to parser fields](lib/jwalk/examine.awk).
 
-To install jwalk, create an executable symlink  to `lib/jwalk.sh` named `jwalk` and place it in your path.
+To install jwalk, run `sh lib/jwalk.sh --install` with the path to the directory where jwalk should be installed. For example:
 
-You can easily embed jwalk in another project. Just include jwalk’s `lib/` directory and run `sh lib/jwalk.sh`.
+    $ sh lib/jwalk.sh --install /usr/local
+
+Once you have a `jwalk` command in your path, you can run `jwalk --install` to embed jwalk into another project:
+
+    $ mkdir -p vendor/jwalk
+    $ jwalk --install vendor/jwalk
+    $ vendor/jwalk/bin/jwalk -l ...
+
+If the installation destination is a directory named `lib`, jwalk will install just the library files without creating an executable symlink:
+
+    $ jwalk --install ~/myproject/lib
+    $ sh ~/myproject/lib/jwalk.sh -l ...
 
 ---
 
