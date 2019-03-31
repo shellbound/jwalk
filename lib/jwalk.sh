@@ -36,6 +36,22 @@ usage() {
   [ -z "$1" ] || exit "$1"
 }
 
+install() {
+  exec sh "$JWALK_LIB/jwalk/install.sh" "$@"
+}
+
+tokenize() {
+  sh "$JWALK_LIB/jwalk/tokenize.sh"
+}
+
+parse() {
+  awk -f "$JWALK_LIB/jwalk/parse.awk"
+}
+
+examine() {
+  awk -v "examining=$examining" -f "$JWALK_LIB/jwalk/examine.awk" "$@"
+}
+
 
 # Find ourselves
 
@@ -60,8 +76,6 @@ TMPDIR="${TMPDIR:-/tmp}"
 
 # Process command-line arguments
 
-unset args examining json_file stored_scripts
-
 store() {
   path="${TMPDIR%/}/jwalk.$$.$1"
   escaped_path="$(escape "$path")"
@@ -78,6 +92,7 @@ escape() {
   printf '%s\n' "$1" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/"
 }
 
+unset args examining json_file stored_scripts
 index=1
 
 while [ $index -le $# ]; do
@@ -105,7 +120,7 @@ while [ $index -le $# ]; do
         usage 0
         ;;
       --install)
-        exec sh "$JWALK_LIB/jwalk/install.sh" "$next"
+        install "$next"
         ;;
       -l|--leaf-only|-le|-lf)
         append args -v leafonly=1
@@ -114,7 +129,7 @@ while [ $index -le $# ]; do
           retry=1
         fi
         ;;
-      -*)
+      -?*)
         usage 1
         ;;
       *)
@@ -133,24 +148,8 @@ eval "set -- $args"
 
 # Run jwalk
 
-walk() {
-  tokenize | parse
-}
-
-examine() {
-  awk -v "examining=$examining" -f "$JWALK_LIB/jwalk/examine.awk" "$@"
-}
-
-parse() {
-  awk -f "$JWALK_LIB/jwalk/parse.awk"
-}
-
-tokenize() {
-  sh "$JWALK_LIB/jwalk/tokenize.sh"
-}
-
-if [ -n "$json_file" ] && [ "$json_file" != "-" ]; then
+if [ "$json_file" != "-" ] && [ -n "$json_file" ]; then
   exec < "$json_file"
 fi
 
-walk | examine "$@"
+tokenize | parse | examine "$@"
