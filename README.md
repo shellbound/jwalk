@@ -7,7 +7,7 @@ jwalk is a streaming JSON parser for Unix:
 
 jwalk is written in standard [awk][awk], [sed][sed], and [sh][sh], and does not require a C compiler. It is intended to run from source on any contemporary POSIX system.
 
-It can parse large documents slowly, but steadily, in memory space proportional to the depth of the document.
+It can parse large documents slowly, but steadily, in memory space proportional to the key depth of the document.
 
 ## Reading Records From JSON
 
