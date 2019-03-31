@@ -129,11 +129,6 @@ Once you have a `jwalk` command in your path, you can run `jwalk --install` to e
     $ jwalk --install vendor/jwalk
     $ vendor/jwalk/bin/jwalk -l ...
 
-If the installation destination is a directory named `lib`, jwalk will install just the library files without creating an executable symlink:
-
-    $ jwalk --install ~/myproject/lib
-    $ sh ~/myproject/lib/jwalk.sh -l ...
-
 ---
 
 [© Sam Stephenson](LICENSE)
