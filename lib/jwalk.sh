@@ -26,35 +26,6 @@
 set -e
 [ -z "$JWALK_DEBUG" ] || set -x
 
-warn() {
-  printf "%s\n" "$1" >&2
-}
-
-usage() {
-  warn "usage: jwalk [-l] [-e script ...] [-f script-file ...] [json-file]"
-  warn "(see https://jwalk.sh for more information and examples)"
-  [ -z "$1" ] || exit "$1"
-}
-
-install() {
-  exec sh "$JWALK_LIB/jwalk/install.sh" "$@"
-}
-
-tokenize() {
-  sh "$JWALK_LIB/jwalk/tokenize.sh"
-}
-
-parse() {
-  awk -f "$JWALK_LIB/jwalk/parse.awk"
-}
-
-examine() {
-  awk -v "examining=$examining" -f "$JWALK_LIB/jwalk/examine.awk" "$@"
-}
-
-
-# Find ourselves
-
 realpath_dirname() {
   path="$1"
   while :; do
@@ -71,85 +42,18 @@ realpath_dirname() {
 }
 
 export JWALK_LIB="$(realpath_dirname "$0")"
-TMPDIR="${TMPDIR:-/tmp}"
+export TMPDIR="${TMPDIR:-/tmp}"
 
-
-# Process command-line arguments
-
-store() {
-  path="${TMPDIR%/}/jwalk.$$.$1"
-  escaped_path="$(escape "$path")"
-  append stored_scripts "$escaped_path "
-  printf '%s\n' "$2" > "$path"
-  trap 'eval "rm -f $stored_scripts"' EXIT
-}
-
-append() {
-  eval "shift; $1=\"\$$1\$@ \""
-}
-
-escape() {
-  printf '%s\n' "$1" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/"
-}
-
-unset args examining json_file stored_scripts
-index=1
-
-while [ $index -le $# ]; do
-  eval 'this="$'$index'"'
-  eval 'next="$'$(( index + 1 ))'"'
-  incr=1
-
-  while
-    retry=0
-    case "$this" in
-      -e)
-        [ -n "$next" ] || usage 1
-        store $index "$next"
-        append args -f "$escaped_path"
-        examining=1
-        incr=2
-        ;;
-      -f)
-        [ -n "$next" ] || usage 1
-        append args -f '"$'$(( index + 1 ))'"'
-        examining=1
-        incr=2
-        ;;
-      -h|--help)
-        usage 0
-        ;;
-      --install)
-        install "$next"
-        ;;
-      -l|--leaf-only|-le|-lf)
-        append args -v leafonly=1
-        if [ "${#this}" -eq 3 ]; then
-          this="-${this#-l}"
-          retry=1
-        fi
-        ;;
-      -?*)
-        usage 1
-        ;;
-      *)
-        [ -z "$json_file" ] || usage 1
-        json_file="$this"
-        ;;
-    esac
-    [ $retry -ne 0 ]
-  do :; done
-
-  index=$(( index + incr ))
-done
-
-eval "set -- $args"
-
-
-# Run jwalk
-
-if [ "$json_file" != "-" ] && [ -n "$json_file" ]; then
-  exec < "$json_file"
+if [ -z "$JWALK_CMD" ]; then
+  JWALK_CMD=walk
 fi
 
-tokenize | parse | examine "$@"
+script="$JWALK_LIB/jwalk/${JWALK_CMD##*/}.sh"
+
+if [ -r "$script" ]; then
+  unset JWALK_CMD
+  exec sh "$script" "$@"
+else
+  echo "jwalk: can't find script file: $script" >&2
+  exit 127
+fi
