@@ -13,7 +13,11 @@ parse() {
 }
 
 examine() {
-  awk -v "examining=$examining" -f "$JWALK_LIB/jwalk/examine.awk" "$@"
+  awk -v "examining=$examining" -v "filter=$filter" -f "$JWALK_LIB/jwalk/examine.awk" "$@"
+}
+
+make_filter() {
+  sh "$JWALK_LIB/jwalk/make_filter.sh" "$@"
 }
 
 install() {
@@ -21,7 +25,7 @@ install() {
 }
 
 usage() {
-  warn "usage: jwalk [-l] [-e script ...] [-f script-file ...] [json-file]"
+  warn "usage: jwalk [-l] [-e script ...] [-f script-file ...] [-p pattern ...] [file]"
   warn "(see https://jwalk.sh for more information and examples)"
   [ -z "$1" ] || exit "$1"
 }
@@ -49,7 +53,7 @@ warn() {
 
 # Process command-line arguments
 
-unset args examining json_file stored_scripts
+unset args examining filter json_file stored_scripts
 index=1
 
 while [ $index -le $# ]; do
@@ -79,12 +83,16 @@ while [ $index -le $# ]; do
       --install)
         install "$next"
         ;;
-      -l|--leaf-only|-le|-lf)
+      -l|--leaf-only|-le|-lf|-lp)
         append args -v leafonly=1
         if [ "${#this}" -eq 3 ]; then
           this="-${this#-l}"
           retry=1
         fi
+        ;;
+      -p|--pattern)
+        filter="${filter}|$(make_filter "$next")"
+        incr=2
         ;;
       -?*)
         usage 1
@@ -101,6 +109,7 @@ while [ $index -le $# ]; do
 done
 
 eval "set -- $args"
+filter="${filter#?}"
 
 
 # Walk
