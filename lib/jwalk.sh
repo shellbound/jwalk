@@ -29,7 +29,9 @@ set -e
 realpath_dirname() {
   path="$1"
   while :; do
-    cd -P "${path%/*}"
+    case "$path" in
+      */* ) cd -P "${path%/*}" ;;
+    esac
     name="${path##*/}"
     if [ -L "$name" ]; then
       link="$(ls -l "$name")"
