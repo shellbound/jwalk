@@ -13,7 +13,7 @@ parse() {
 }
 
 examine() {
-  awk -v "examining=$examining" -v "filter=$filter" -f "$JWALK_LIB/jwalk/examine.awk" "$@"
+  awk -f "$JWALK_LIB/jwalk/examine.awk" "$@" -v "examining=$examining" -v "filter=$filter"
 }
 
 make_filter() {
@@ -90,6 +90,10 @@ while [ $index -le $# ]; do
         ;;
       -p|--pattern)
         filter="${filter}|$(make_filter "$next")"
+        incr=2
+        ;;
+      -v)
+        append args -v "$next"
         incr=2
         ;;
       -?*)
