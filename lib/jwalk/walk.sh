@@ -65,14 +65,12 @@ while [ $index -le $# ]; do
     retry=0
     case "$this" in
       -e)
-        [ -n "$next" ] || usage 1
         store $index "$next"
         append args -f "$escaped_path"
         examining=1
         incr=2
         ;;
       -f)
-        [ -n "$next" ] || usage 1
         append args -f '"$'$(( index + 1 ))'"'
         examining=1
         incr=2
@@ -105,7 +103,12 @@ while [ $index -le $# ]; do
     [ $retry -ne 0 ]
   do :; done
 
-  index=$(( index + incr ))
+  if [ $incr -gt 1 ] && [ $index -eq $# ]; then
+    warn "jwalk: missing argument for option $this"
+    usage 1
+  else
+    index=$(( index + incr ))
+  fi
 done
 
 eval "set -- $args"
