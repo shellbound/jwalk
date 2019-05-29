@@ -152,9 +152,11 @@ function unescape(value) {
     gsub(/\\r/, "\r", value)
     gsub(/\\f/, "\f", value)
   }
+
   if (match(value, /\\u[[:xdigit:]]{4}/)) {
     value = unescape_ucs2(value)
   }
+
   return value
 }
 
@@ -177,6 +179,7 @@ function unescape_ucs2(value,  i, len, ucs2_hex, ucs2_codepoints) {
 function ucs2_codepoints_to_utf8(ucs2_codepoints,  value, next_value, key, next_key, head) {
   head = ucs2_codepoints["head"]
   result = key = ""
+
   while (key != head) {
     next_key = key "#"
     value = ucs2_codepoints[key]
@@ -191,6 +194,7 @@ function ucs2_codepoints_to_utf8(ucs2_codepoints,  value, next_value, key, next_
 
     result = result unicode_codepoint_to_utf8(value)
   }
+
   return result
 }
 
@@ -248,11 +252,13 @@ function pop(array,  head, value) {
 function join(array,  head, result, key, next_key) {
   head = array["head"]
   result = key = ""
+
   while (key != head) {
     next_key = key "#"
     result = result array[key] (next_key == head ? "" : OFS)
     key = next_key
   }
+
   return result
 }
 

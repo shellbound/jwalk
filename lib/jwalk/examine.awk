@@ -56,9 +56,11 @@ function load_path_keys(i, k, v) {
   if (path_keys_source != $0) {
     path_keys_source = $0
     depth = NF - 2
+
     split("", keys)
     split("", path_offsets)
     path = ""
+
     for (i = 1; i <= depth; i++) {
       k = sprintf("%d", i)
       keys[k] = keys[sprintf("%d", -(depth - i + 1))] = v = $(i)
@@ -69,9 +71,13 @@ function load_path_keys(i, k, v) {
 }
 
 function unescape(str) {
-  str = str == 0 && length(str) == 0 ? value : str
+  if (str == 0 && length(str) == 0) {
+    str = value
+  }
+
   gsub(/\\n/, "\n", str)
   gsub(/\\t/, "\t", str)
   gsub(/\\\\/, "\\", str)
+
   return str
 }
