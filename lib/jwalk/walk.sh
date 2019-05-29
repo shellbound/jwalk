@@ -50,6 +50,18 @@ warn() {
   printf "%s\n" "$1" >&2
 }
 
+awk() {
+  command "${JWALK_AWK:-awk}" "$@"
+}
+
+sed() {
+  command "${JWALK_SED:-sed}" "$@"
+}
+
+sh() {
+  command "${JWALK_SH:-sh}" "$@"
+}
+
 
 # Process command-line arguments
 

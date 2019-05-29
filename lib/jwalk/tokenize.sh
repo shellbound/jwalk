@@ -11,6 +11,10 @@ CHARS="$(printf '\n\t')"
 LF="${CHARS%?}"
 TAB="${CHARS#?}"
 
+sed() {
+  command "${JWALK_SED:-sed}" "$@"
+}
+
 
 # Stage 1:
 #   Replace escaped double-quote sequences (`\"`) with tabs

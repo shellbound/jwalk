@@ -54,7 +54,7 @@ script="$JWALK_LIB/jwalk/${JWALK_CMD##*/}.sh"
 
 if [ -r "$script" ]; then
   unset JWALK_CMD
-  exec sh "$script" "$@"
+  exec command "${JWALK_SH:-sh}" "$script" "$@"
 else
   echo "jwalk: can't find script file: $script" >&2
   exit 127
