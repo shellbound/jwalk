@@ -23,7 +23,7 @@ end=$((${#1} - 1))
 rest="$1     "
 
 while
-  head="${rest%${rest#??????}}"
+  head="${rest%"${rest#??????}"}"
   rest="${rest#?}"
   [ -n "$head" ]
 do
