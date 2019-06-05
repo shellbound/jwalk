@@ -17,6 +17,16 @@
 #     \t      tab
 #     \\      backslash
 #
+# The parser is modeled as a state machine with the following states:
+#
+#     0       expecting any value
+#     1       expecting object property key
+#     2       expecting next object property in sequence, or end of object
+#     3       expecting object property separator
+#     4       expecting object property value
+#     5       expecting array entry
+#     6       expecting next array entry in sequence, or end of array
+
 
 BEGIN {
   FS = ""
