@@ -1,0 +1,26 @@
+name
+version
+description
+module
+main
+types
+files	0
+repository	type
+repository	url
+keywords	0
+keywords	1
+keywords	2
+author
+license
+bugs	url
+homepage
+devDependencies	intern
+devDependencies	leadfoot
+devDependencies	rollup
+devDependencies	rollup-plugin-typescript2
+devDependencies	typescript
+scripts	clean
+scripts	build
+scripts	watch
+scripts	start
+scripts	test

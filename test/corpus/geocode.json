@@ -1,0 +1,84 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "200",
+               "short_name" : "200",
+               "types" : [ "subpremise" ]
+            },
+            {
+               "long_name" : "30",
+               "short_name" : "30",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "North Racine Avenue",
+               "short_name" : "N Racine Ave",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "West Loop",
+               "short_name" : "West Loop",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Chicago",
+               "short_name" : "Chicago",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Cook County",
+               "short_name" : "Cook County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Illinois",
+               "short_name" : "IL",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "60607",
+               "short_name" : "60607",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "30 N Racine Ave #200, Chicago, IL 60607, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 41.8828781,
+                  "lng" : -87.6568259
+               },
+               "southwest" : {
+                  "lat" : 41.8823171,
+                  "lng" : -87.65735719999999
+               }
+            },
+            "location" : {
+               "lat" : 41.8826085,
+               "lng" : -87.657073
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 41.88394658029151,
+                  "lng" : -87.65574256970849
+               },
+               "southwest" : {
+                  "lat" : 41.88124861970851,
+                  "lng" : -87.65844053029151
+               }
+            }
+         },
+         "place_id" : "EiwyMDAsIDMwIE4gUmFjaW5lIEF2ZSwgQ2hpY2FnbywgSUwgNjA2MDcsIFVTQSIfGh0KFgoUChIJZ7Rsk9gsDogR_w_TVpFczyASAzIwMA",
+         "types" : [ "subpremise" ]
+      }
+   ],
+   "status" : "OK"
+}

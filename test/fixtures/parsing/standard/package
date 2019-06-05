@@ -1,0 +1,33 @@
+object	
+name	string	turbolinks
+version	string	5.3.0-beta.1
+description	string	Turbolinks makes navigating your web application faster
+module	string	dist/index.js
+main	string	dist/turbolinks.js
+types	string	dist/index.d.ts
+files	array	
+files	0	string	dist
+repository	object	
+repository	type	string	git
+repository	url	string	git+https://github.com/turbolinks/turbolinks.git
+keywords	array	
+keywords	0	string	turbolinks
+keywords	1	string	browser
+keywords	2	string	pushstate
+author	string	javan, packagethief, sstephenson
+license	string	MIT
+bugs	object	
+bugs	url	string	https://github.com/turbolinks/turbolinks/issues
+homepage	string	https://github.com/turbolinks/turbolinks#readme
+devDependencies	object	
+devDependencies	intern	string	^4.4.1
+devDependencies	leadfoot	string	^1.7.6
+devDependencies	rollup	string	^1.1.2
+devDependencies	rollup-plugin-typescript2	string	^0.19.2
+devDependencies	typescript	string	^3.3.1
+scripts	object	
+scripts	clean	string	rm -fr dist
+scripts	build	string	tsc -b && rollup -c
+scripts	watch	string	rollup -wc
+scripts	start	string	intern serveOnly
+scripts	test	string	NODE_OPTIONS=--inspect intern

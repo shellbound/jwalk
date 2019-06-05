@@ -1,0 +1,78 @@
+object	
+results	array	
+results	0	object	
+results	0	address_components	array	
+results	0	address_components	0	object	
+results	0	address_components	0	long_name	string	200
+results	0	address_components	0	short_name	string	200
+results	0	address_components	0	types	array	
+results	0	address_components	0	types	0	string	subpremise
+results	0	address_components	1	object	
+results	0	address_components	1	long_name	string	30
+results	0	address_components	1	short_name	string	30
+results	0	address_components	1	types	array	
+results	0	address_components	1	types	0	string	street_number
+results	0	address_components	2	object	
+results	0	address_components	2	long_name	string	North Racine Avenue
+results	0	address_components	2	short_name	string	N Racine Ave
+results	0	address_components	2	types	array	
+results	0	address_components	2	types	0	string	route
+results	0	address_components	3	object	
+results	0	address_components	3	long_name	string	West Loop
+results	0	address_components	3	short_name	string	West Loop
+results	0	address_components	3	types	array	
+results	0	address_components	3	types	0	string	neighborhood
+results	0	address_components	3	types	1	string	political
+results	0	address_components	4	object	
+results	0	address_components	4	long_name	string	Chicago
+results	0	address_components	4	short_name	string	Chicago
+results	0	address_components	4	types	array	
+results	0	address_components	4	types	0	string	locality
+results	0	address_components	4	types	1	string	political
+results	0	address_components	5	object	
+results	0	address_components	5	long_name	string	Cook County
+results	0	address_components	5	short_name	string	Cook County
+results	0	address_components	5	types	array	
+results	0	address_components	5	types	0	string	administrative_area_level_2
+results	0	address_components	5	types	1	string	political
+results	0	address_components	6	object	
+results	0	address_components	6	long_name	string	Illinois
+results	0	address_components	6	short_name	string	IL
+results	0	address_components	6	types	array	
+results	0	address_components	6	types	0	string	administrative_area_level_1
+results	0	address_components	6	types	1	string	political
+results	0	address_components	7	object	
+results	0	address_components	7	long_name	string	United States
+results	0	address_components	7	short_name	string	US
+results	0	address_components	7	types	array	
+results	0	address_components	7	types	0	string	country
+results	0	address_components	7	types	1	string	political
+results	0	address_components	8	object	
+results	0	address_components	8	long_name	string	60607
+results	0	address_components	8	short_name	string	60607
+results	0	address_components	8	types	array	
+results	0	address_components	8	types	0	string	postal_code
+results	0	formatted_address	string	30 N Racine Ave #200, Chicago, IL 60607, USA
+results	0	geometry	object	
+results	0	geometry	bounds	object	
+results	0	geometry	bounds	northeast	object	
+results	0	geometry	bounds	northeast	lat	number	41.8828781
+results	0	geometry	bounds	northeast	lng	number	-87.6568259
+results	0	geometry	bounds	southwest	object	
+results	0	geometry	bounds	southwest	lat	number	41.8823171
+results	0	geometry	bounds	southwest	lng	number	-87.65735719999999
+results	0	geometry	location	object	
+results	0	geometry	location	lat	number	41.8826085
+results	0	geometry	location	lng	number	-87.657073
+results	0	geometry	location_type	string	ROOFTOP
+results	0	geometry	viewport	object	
+results	0	geometry	viewport	northeast	object	
+results	0	geometry	viewport	northeast	lat	number	41.88394658029151
+results	0	geometry	viewport	northeast	lng	number	-87.65574256970849
+results	0	geometry	viewport	southwest	object	
+results	0	geometry	viewport	southwest	lat	number	41.88124861970851
+results	0	geometry	viewport	southwest	lng	number	-87.65844053029151
+results	0	place_id	string	EiwyMDAsIDMwIE4gUmFjaW5lIEF2ZSwgQ2hpY2FnbywgSUwgNjA2MDcsIFVTQSIfGh0KFgoUChIJZ7Rsk9gsDogR_w_TVpFczyASAzIwMA
+results	0	types	array	
+results	0	types	0	string	subpremise
+status	string	OK

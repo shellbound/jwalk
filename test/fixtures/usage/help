@@ -1,0 +1,2 @@
+usage: jwalk [-l] [-e script ...] [-f script-file ...] [-p pattern ...] [file]
+(see https://jwalk.sh for more information and examples)

@@ -88,7 +88,7 @@ while [ $index -le $# ]; do
         incr=2
         ;;
       -h|--help)
-        usage 0
+        usage 0 2>&1
         ;;
       --install)
         install "$next"
