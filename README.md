@@ -1,13 +1,15 @@
 # jwalk
 
-jwalk is a **streaming JSON parser for Unix:** _streaming_, in that individual [JSON][json] tokens are parsed as soon as they are read from the input stream, and _for Unix_, in that its tab-delimited output is designed to be used and manipulated by the standard Unix toolset. jwalk…
+jwalk is a **streaming JSON parser for Unix:** _streaming_, in that individual [JSON][json] tokens are parsed as soon as they are read from the input stream, and _for Unix_, in that its tab-delimited output is designed to be used and manipulated by the standard Unix toolset.
+
+jwalk…
 
 * parses large documents slowly, but steadily, in memory space proportional to the key depth of the document
 * runs from source on any contemporary POSIX system
 * is written in standard [awk][awk], [sed][sed], and [sh][sh], and does not require a C compiler or precompiled binaries
 * can easily be embedded in another project
 
-jwalk is useful for working with data from JSON APIs in shell scripts, especially in bootstrap environments, but can be applied to a variety of other situations. It is a powerful command-line tool in its own right, with built-in pattern matching and support for awk scripts called _examiners_.
+jwalk is useful for working with data from JSON APIs in shell scripts, especially in bootstrap environments, but can be applied to a variety of other situations. It is a powerful command-line tool in its own right, with built-in pattern filtering and support for awk scripts called _examiners_.
 
 ## How It Works
 
@@ -90,17 +92,22 @@ With `-l`, the same array looks like:
 
 You can use the `-p <pattern>` (or `--pattern <pattern>`) command-line option to instruct jwalk to print only the records whose keys match the given _pattern_.
 
-A pattern describes a key or sequence of keys present anywhere in a record's path. For example, the pattern `a` matches only the records whose path contains a key `"a"`.
+A pattern describes a key or sequence of keys present anywhere in a record's path. For example:
 
-Patterns may contain any of the following special characters:
+* `name` matches records whose path contains a key `"name"`
+* `person.name` matches records whose path contains the key `"person"` immediately followed by the key `"name"`
 
-Character | Matches
---------- | -------
-`^`       | the beginning of the path
-`$`       | the end of the path
-`.`       | the boundary between two adjacent keys
-`*`       | zero or more occurrences of any character in a key
-`.**`     | zero or more keys
+Patterns may contain any of the following special strings:
+
+String | Matches
+------ | -------
+`^`    | the beginning of the path
+`$`    | the end of the path
+`.`    | the boundary between two adjacent keys
+`*`    | wildcard; zero or more occurrences of any character in a key
+`.**`  | zero or more keys
+
+To match these strings literally, escape them by placing a `\` character in front. To match a literal backslash, use `\\`.
 
 ### Example Patterns
 
@@ -109,18 +116,22 @@ Pattern  | Matches records
 `^a`     | starting with the key `"a"`
 `*.*`    | with at least two keys
 `a`      | with the key `"a"`
-(empty)  | With the key `""`
+(empty)  | with the key `""`
 `a.b.c.` | with the keys `"a"`, `"b"`, and `"c"`, followed by the key `""`
 `a*c`    | having any key which starts with `a` and ends with `c`
 `a.*.c`  | with the key `"a"`, followed by one key, followed by the key `"c"`
 `a.**.c` | with the key `"a"`, followed by zero or more keys, followed by the key `"c"`
 `c$`     | ending with the key `"c"`
 
+### Specifying Multiple Patterns
+
+If you specify multiple patterns on the command line, jwalk will print records which match any of those patterns. In other words, jwalk matches the union, or logical OR, of its pattern arguments.
+
 ## Examining Records With awk
 
 jwalk's tab-delimited, line-separated output is designed to be consumed by standard Unix tools such as `awk`, `cut`, `grep`, and `sed`.
 
-In particular, awk's default field and record separators handle jwalk's output, such that each record's fields are accessible as `$1`, `$2`, and so on:
+In particular, awk's default field and record separators handle jwalk's output without any additional configuration, such that each record's fields are accessible as `$1`, `$2`, and so on:
 
     $ echo '["awk","cut","grep","sed"]' \
     >      | jwalk -l | awk '{print $3}'
@@ -131,7 +142,7 @@ In particular, awk's default field and record separators handle jwalk's output, 
 
 A jwalk _examiner_ is an [awk script][awk] with a runtime environment tailored for parsing jwalk output. Specifically, examiners have access to special variables with details about the record.
 
-Pass one or more `-e <script>` options to jwalk on the command line to specify examiners inline:
+Specify examiners on the command line by passing one or more `-e <script>` options to jwalk:
 
     $ echo '["awk","cut","grep","sed"]' \
     >      | jwalk -l -e '{print value}'
@@ -141,6 +152,10 @@ Pass one or more `-e <script>` options to jwalk on the command line to specify e
     sed
 
 You can also store examiners in files and load them with the `-f <scriptfile>` command-line option.
+
+Note that jwalk will not display any output unless you call awk's `print` built-in command, such as with `-e '{print}'`. Most examiners will print records conditionally or display them in a different format.
+
+You can use pattern filtering in conjunction with examiners. The filtering happens first, so examiners are only aware of matched records.
 
 ### Special Variables
 
