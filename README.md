@@ -131,7 +131,7 @@ In particular, awk's default field and record separators handle jwalk's output, 
 
 A jwalk _examiner_ is an [awk script][awk] with a runtime environment tailored for parsing jwalk output. Specifically, examiners have access to special variables with details about the record.
 
-Pass one or more `-e <script>` options on the command line to specify examiners inline:
+Pass one or more `-e <script>` options to jwalk on the command line to specify examiners inline:
 
     $ echo '["awk","cut","grep","sed"]' \
     >      | jwalk -l -e '{print value}'
@@ -181,7 +181,7 @@ To install a git checkout of jwalk for development, either place a symlink to `b
 
 ## Testing jwalk
 
-Run `test/check` to start the jwalk test suite. This script runs each test case in `test/cases/` and logs the results in TAP format to standard output. If any test case fails, the script exits with a non-zero status.
+Run `test/check` to start the jwalk test harness. This script runs each test case in `test/cases/` and logs the results in TAP format to standard output. If any test case fails, the harness exits with a non-zero status.
 
 Input data lives in `test/corpus/` and expected output lives in `test/fixtures/`. When writing new test cases, use the existing test cases and file hierarchy as a guide.
 
