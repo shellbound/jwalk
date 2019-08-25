@@ -1,6 +1,3 @@
-set -e
-[ -z "$JWALK_DEBUG" ] || set -x
-
 PREFIX="${1%/}"
 
 [ -n "$PREFIX" ] || {

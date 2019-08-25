@@ -1,6 +1,3 @@
-set -e
-[ -z "$JWALK_DEBUG" ] || set -x
-
 before='(^|\t)'
 regexp=''
 after='(\t|$)'

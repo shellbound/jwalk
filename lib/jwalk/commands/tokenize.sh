@@ -1,13 +1,6 @@
-set -e
-[ -z "$JWALK_DEBUG" ] || set -x
-
 CHARS="$(printf '\n\t')"
 LF="${CHARS%?}"
 TAB="${CHARS#?}"
-
-sed() {
-  command "${JWALK_SED:-sed}" "$@"
-}
 
 
 # Stage 1:

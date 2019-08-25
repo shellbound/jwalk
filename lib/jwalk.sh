@@ -26,36 +26,41 @@
 set -e
 [ -z "$JWALK_DEBUG" ] || set -x
 
-realpath_dirname() {
-  path="$1"
+puts() {
+  printf "%s\n" "$@"
+}
+
+self() {
+  self="${0##*/}"
+  puts "${self%.*}"
+}
+
+lib() {
+  path="$0"
   while :; do
     case "$path" in
       */* ) cd -P "${path%/*}" ;;
     esac
     name="${path##*/}"
-    if [ -L "$name" ]; then
-      link="$(ls -l "$name")"
-      path="${link##* $name -> }"
-    else
-      break
-    fi
+    [ -L "$name" ] || break
+    link="$(ls -l "$name")"
+    path="${link##* $name -> }"
   done
-  pwd
+  puts "$PWD/$(self)"
 }
 
-export JWALK_LIB="$(realpath_dirname "$0")/jwalk"
-export TMPDIR="${TMPDIR:-/tmp}"
+export JWALK_LIB="$(lib)"
 
-if [ -z "$JWALK_CMD" ]; then
-  JWALK_CMD=walk
-fi
+unset FEATURES
+require() {
+  case "$FEATURES:" in
+    *":$1:"* )
+      return ;;
+    * )
+      FEATURES="$FEATURES:$1"
+      . "$JWALK_LIB/$1.sh"
+  esac
+}
 
-script="$JWALK_LIB/commands/${JWALK_CMD##*/}.sh"
-
-if [ -r "$script" ]; then
-  unset JWALK_CMD
-  exec command "${JWALK_SH:-sh}" "$script" "$@"
-else
-  echo "jwalk: can't find script file: $script" >&2
-  exit 127
-fi
+require "main"
+main "$@"
