@@ -43,14 +43,14 @@ realpath_dirname() {
   pwd
 }
 
-export JWALK_LIB="$(realpath_dirname "$0")"
+export JWALK_LIB="$(realpath_dirname "$0")/jwalk"
 export TMPDIR="${TMPDIR:-/tmp}"
 
 if [ -z "$JWALK_CMD" ]; then
   JWALK_CMD=walk
 fi
 
-script="$JWALK_LIB/jwalk/${JWALK_CMD##*/}.sh"
+script="$JWALK_LIB/commands/${JWALK_CMD##*/}.sh"
 
 if [ -r "$script" ]; then
   unset JWALK_CMD

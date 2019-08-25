@@ -1,27 +1,24 @@
-# jwalk: a streaming JSON parser for Unix
-# (c) Sam Stephenson / https://jwalk.sh
-
 set -e
 [ -z "$JWALK_DEBUG" ] || set -x
 
 tokenize() {
-  sh "$JWALK_LIB/jwalk/tokenize.sh"
+  sh "$JWALK_LIB/commands/tokenize.sh"
 }
 
 parse() {
-  awk -f "$JWALK_LIB/jwalk/parse.awk"
+  awk -f "$JWALK_LIB/commands/parse.awk"
 }
 
 examine() {
-  awk -f "$JWALK_LIB/jwalk/examine.awk" "$@" -v "examining=$examining" -v "filter=$filter"
+  awk -f "$JWALK_LIB/commands/examine.awk" "$@" -v "examining=$examining" -v "filter=$filter"
 }
 
 make_filter() {
-  sh "$JWALK_LIB/jwalk/make_filter.sh" "$@"
+  sh "$JWALK_LIB/commands/make_filter.sh" "$@"
 }
 
 install() {
-  sh "$JWALK_LIB/jwalk/install.sh" "$@"
+  sh "$JWALK_LIB/commands/install.sh" "$@"
 }
 
 usage() {
@@ -31,10 +28,10 @@ usage() {
 }
 
 store() {
-  path="${TMPDIR%/}/jwalk.$$.$1"
-  escaped_path="$(escape "$path")"
+  store_path="${TMPDIR%/}/jwalk.$$.$1"
+  escaped_path="$(escape "$store_path")"
   append stored_scripts "$escaped_path "
-  printf '%s\n' "$2" > "$path"
+  printf '%s\n' "$2" > "$store_path"
   trap 'eval "rm -f $stored_scripts"' EXIT
 }
 
