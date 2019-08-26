@@ -49,6 +49,10 @@ parse_walk_option_argument() {
       read_option_value variable
       append_option_arguments -v "$variable"
       ;;
+    --version )
+      version
+      exit
+      ;;
     -?* )
       invalid_option
       ;;
@@ -70,4 +74,8 @@ store_script() {
   mkdir -p "$script_dir"
   puts "$2" > "$script_file"
   trap 'rm -fr "${TMPDIR%/}/jwalk.$$"' EXIT
+}
+
+version() {
+  puts "$(self) 0.9.0"
 }
