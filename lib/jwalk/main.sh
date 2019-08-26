@@ -1,8 +1,14 @@
 require "commands"
 
 main() {
-  # Process command-line arguments
+  parse_option_arguments "$@"
+  eval "set -- $args"
 
+  open "$json_file"
+  tokenize | parse | examine "$@"
+}
+
+parse_option_arguments() {
   unset args examining filter json_file stored_scripts
   index=1
 
@@ -58,30 +64,26 @@ main() {
     do :; done
 
     if [ $incr -gt 1 ] && [ $index -eq $# ]; then
-      warn "jwalk: missing argument for option $this"
+      warn "$(self): missing argument for option $this"
       usage 1
     else
       index=$(( index + incr ))
     fi
   done
 
-  eval "set -- $args"
   filter="${filter#?}"
-
-
-  # Walk
-
-  if [ "$json_file" != "-" ] && [ -n "$json_file" ]; then
-    exec < "$json_file"
-  fi
-
-  tokenize | parse | examine "$@"
 }
 
 usage() {
-  warn "usage: jwalk [-l] [-e script ...] [-f script-file ...] [-p pattern ...] [file]"
+  warn "usage: $(self) [-l] [-e script ...] [-f script-file ...] [-p pattern ...] [file]"
   warn "(see https://jwalk.sh for more information and examples)"
   [ -z "$1" ] || exit "$1"
+}
+
+open() {
+  if [ "$1" != "-" ] && [ -n "$1" ]; then
+    exec < "$1"
+  fi
 }
 
 store() {
