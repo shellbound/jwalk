@@ -153,9 +153,9 @@ Specify examiners on the command line by passing one or more `-e <script>` optio
 
 You can also store examiners in files and load them with the `-f <scriptfile>` command-line option.
 
-Note that jwalk will not display any output unless you call awk's `print` built-in command, such as with `-e '{print}'`. Most examiners will print records conditionally or display them in a different format.
+Note that jwalk will not display any output unless you call awk's `print` built-in command, such as with `-e '{print}'`. Most examiners will want to print records conditionally or display them in a different format.
 
-You can use pattern filtering in conjunction with examiners. The filtering happens first, so examiners are only aware of matched records.
+You can use pattern filtering in conjunction with examiners. The filtering phase happens before the examining phase, so examiners are only aware of matched records.
 
 ### Special Variables
 
