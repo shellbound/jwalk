@@ -62,5 +62,7 @@ require() {
   esac
 }
 
+require "prelude"
 require "main"
+
 main "$@"

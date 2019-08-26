@@ -1,5 +1,5 @@
 examine() {
-  awk -f "$JWALK_LIB/commands/examine.awk" "$@" -v "examining=$examining" -v "filter=$filter"
+  awk -f "$JWALK_LIB/commands/examine.awk" -v "examining=$examining" -v "filter=$filter" "$@"
 }
 
 install() {

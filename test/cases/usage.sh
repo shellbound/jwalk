@@ -4,7 +4,7 @@ assert_output "fixtures/usage/help"
 
 run jwalk --nonexistent
 assert_status 1
-assert_output "fixtures/usage/help"
+assert_output "fixtures/usage/nonexistent"
 
 run jwalk -e
 assert_status 1
